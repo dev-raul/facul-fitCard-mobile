@@ -8,13 +8,21 @@ import SignIn from '~/pages/SignIn';
 const Stack = createStackNavigator();
 
 const Welcome = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerTintColor: '#fff',
+      headerTitleAlign: 'center',
+      headerStyle: {backgroundColor: '#e02041'},
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
     <Stack.Screen
       options={{headerShown: false}}
       name="SwitchAuth"
       component={SwicthAuth}
     />
-    <Stack.Screen name="SignIn" component={SignIn} />
+    <Stack.Screen options={{title: 'Login'}} name="SignIn" component={SignIn} />
   </Stack.Navigator>
 );
 export default Welcome;
