@@ -1,30 +1,11 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import PropTypes from 'prop-types';
+import {useAuth} from '~/context/auth';
 
 import WelcomeRoute from './Welcome.routes';
+import DashBoard from '~/pages/DashBoard';
 
-const Stack = createStackNavigator();
-
-const routes = ({loggedIn}) => (
-  <NavigationContainer>
-    {loggedIn ? (
-      <Stack.Navigator>
-        <Stack.Screen name="home" component={() => {}} />
-      </Stack.Navigator>
-    ) : (
-      <WelcomeRoute />
-    )}
-  </NavigationContainer>
-);
-
-routes.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+const routes = () => {
+  const {loading, signed} = useAuth();
+  return signed ? <DashBoard /> : <WelcomeRoute />;
 };
-
-routes.defaultProps = {
-  loggedIn: false,
-};
-
 export default routes;
