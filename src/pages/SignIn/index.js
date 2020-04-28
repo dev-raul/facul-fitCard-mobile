@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImgLogo from '~/assets/icon.png';
 import Button from '~/components/Button';
 
-export default function SignIn({route}) {
+export default function SignIn({route, navigation}) {
   const {SignIn} = useAuth();
   const {provider} = route.params;
 
@@ -35,10 +35,11 @@ export default function SignIn({route}) {
     try {
       const data = provider ? {username, password} : {id_hash: id};
       await SignIn(data, provider);
+      setLoading(false);
     } catch (err) {
       setError(true);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -71,6 +72,7 @@ export default function SignIn({route}) {
               autoCorrect={false}
               autoCapitalize="none"
               returnKeyType="send"
+              onSubmitEditing={handleSingIn}
               value={password}
               onChangeText={setPassword}
             />
@@ -83,6 +85,7 @@ export default function SignIn({route}) {
               autoCorrect={false}
               autoCapitalize="none"
               returnKeyType="send"
+              onSubmitEditing={handleSingIn}
               value={id}
               onChangeText={setId}
             />
@@ -92,7 +95,7 @@ export default function SignIn({route}) {
           ENTRAR
         </Button>
         {provider && (
-          <NavigateSignUpView onPress={() => {}}>
+          <NavigateSignUpView onPress={() => navigation.navigate('SignUp')}>
             <Icon name="sign-in-alt" color="#FFF" size={20} />
             <NavigateSignUpText>Não tenho cadastro</NavigateSignUpText>
           </NavigateSignUpView>

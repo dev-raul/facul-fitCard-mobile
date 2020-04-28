@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import SwicthAuth from '~/pages/SwitchAuth';
 import SignIn from '~/pages/SignIn';
+import SignUp from '~/pages/SignUp';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,11 @@ const Welcome = () => (
       component={SwicthAuth}
     />
     <Stack.Screen options={{title: 'Login'}} name="SignIn" component={SignIn} />
+    <Stack.Screen
+      options={{title: 'Cadastro'}}
+      name="SignUp"
+      component={SignUp}
+    />
   </Stack.Navigator>
 );
 export default Welcome;
