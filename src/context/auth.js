@@ -23,8 +23,10 @@ export function AuthProvider({children}) {
       if (storageToken && storageUser) {
         api.defaults.headers.Authorization = `Bearer ${storageToken}`;
         setUser(JSON.parse(storageUser));
-        setLoading(false);
       }
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
     loadStorage();
   }, []);

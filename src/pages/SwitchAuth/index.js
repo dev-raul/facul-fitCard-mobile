@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {StatusBar, View} from 'react-native';
+import {View} from 'react-native';
 
 import {
   Container,
@@ -18,7 +18,6 @@ import ImgLogo from '~/assets/icon.png';
 export default function SwitchAuth({navigation}) {
   return (
     <Container>
-      <StatusBar backgroundColor="#e02041" barStyle="light-content" />
       <Logo source={ImgLogo} />
       <SwitchView>
         <WellcomeText>Seja Bem-vindo!</WellcomeText>

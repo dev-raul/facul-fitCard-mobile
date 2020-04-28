@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Routes from './routes';
 import {AuthProvider} from '~/context/auth';
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AuthProvider>
+        <StatusBar backgroundColor="#e02041" barStyle="light-content" />
         <Routes loggedIn={false} />
       </AuthProvider>
     </NavigationContainer>
