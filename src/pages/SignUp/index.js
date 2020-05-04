@@ -10,7 +10,6 @@ import {
   NavigateSignInText,
   ErrorView,
   ErrorText,
-  ModalNotification,
   ModalContainer,
   ModalContent,
   ModalTitle,
@@ -23,6 +22,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import ImgLogo from '~/assets/icon.png';
 import Button from '~/components/Button';
+import Modal from '~/components/Modal';
 
 import api from '~/services/api';
 
@@ -57,29 +57,21 @@ export default function SignIn({navigation}) {
     <Container>
       <Logo source={ImgLogo} />
 
-      <ModalNotification
-        animationType="slide"
-        transparent={true}
+      <Modal
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
-        <ModalContainer>
-          <ModalContent>
-            <ModalTitle>Usuário criado com sucesso!</ModalTitle>
-            <ModalDescription>
-              Deseja voltar para a tela de Login?
-            </ModalDescription>
-            <FooterView>
-              <ButtonInfo onPress={() => setModalVisible(false)}>
-                <ButtonInfoText color="#e02041">Cancelar</ButtonInfoText>
-              </ButtonInfo>
-              <ButtonInfo
-                onPress={() => navigation.navigate('SignIn', {provider: true})}>
-                <ButtonInfoText color="#00E676">Confirmar</ButtonInfoText>
-              </ButtonInfo>
-            </FooterView>
-          </ModalContent>
-        </ModalContainer>
-      </ModalNotification>
+        <ModalTitle>Usuário criado com sucesso!</ModalTitle>
+        <ModalDescription>Deseja voltar para a tela de Login?</ModalDescription>
+        <FooterView>
+          <ButtonInfo onPress={() => setModalVisible(false)}>
+            <ButtonInfoText color="#e02041">Cancelar</ButtonInfoText>
+          </ButtonInfo>
+          <ButtonInfo
+            onPress={() => navigation.navigate('SignIn', {provider: true})}>
+            <ButtonInfoText color="#00E676">Confirmar</ButtonInfoText>
+          </ButtonInfo>
+        </FooterView>
+      </Modal>
 
       <FormView>
         <Title>

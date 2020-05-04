@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import {call, put, all, takeLatest} from 'redux-saga/effects';
 import * as StudantActions from './actions';
 import Types from '../../Types';
@@ -19,8 +20,10 @@ function* addStudant({payload}) {
     const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
     const {id} = JSON.parse(storageUser);
     const response = yield call(api.post, `user/${id}/studant`, payload.data);
+    Alert.alert('Sucesso ao adicionar o aluno!');
     yield put(StudantActions.addStudantSuccess(response.data));
   } catch (err) {
+    Alert.alert('Error:', 'Falha ao adicionar o aluno!');
     yield put(StudantActions.addStudantFailure());
   }
 }

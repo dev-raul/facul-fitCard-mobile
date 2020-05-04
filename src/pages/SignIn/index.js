@@ -34,9 +34,8 @@ export default function SignIn({route, navigation}) {
     setLoading(true);
     try {
       const data = provider ? {username, password} : {id_hash: id};
-      SignIn(data, provider).then(() => {
-        setLoading(false);
-      });
+      await SignIn(data, provider);
+      setLoading(false);
     } catch (err) {
       setError(true);
       setLoading(false);
