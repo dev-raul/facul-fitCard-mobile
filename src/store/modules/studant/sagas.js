@@ -27,7 +27,24 @@ function* addStudant({payload}) {
     yield put(StudantActions.addStudantFailure());
   }
 }
+function* deleteStudant({payload}) {
+  try {
+    console.log(payload);
+    const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
+    const {id} = JSON.parse(storageUser);
+    const response = yield call(
+      api.delete,
+      `user/${id}/studant/${payload.studantId}`,
+    );
+    yield put(StudantActions.deleteStudantSuccess(payload.studantId));
+    Alert.alert('Sucesso ao remover o aluno!');
+  } catch (err) {
+    yield put(StudantActions.deleteStudantFailure());
+    Alert.alert('Error:', 'Falha ao remover o aluno!');
+  }
+}
 export default all([
   takeLatest(Types.load_studant_request, loadStudant),
   takeLatest(Types.add_studant_request, addStudant),
+  takeLatest(Types.delete_studant_request, deleteStudant),
 ]);

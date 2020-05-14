@@ -12,6 +12,7 @@ export default (state = initialState, {type, payload}) => {
       //load studant
       case Types.load_studant_request:
         draft.loading = true;
+        draft.error = false;
         break;
       case Types.load_studant_success:
         draft.loading = false;
@@ -21,15 +22,32 @@ export default (state = initialState, {type, payload}) => {
         draft.loading = false;
         draft.error = true;
         break;
+
       //add studant
       case Types.add_studant_request:
         draft.loading = true;
+        draft.error = false;
         break;
       case Types.add_studant_success:
         draft.loading = false;
         draft.data = [payload.studant, ...state.data];
         break;
       case Types.add_studant_failure:
+        draft.loading = false;
+        draft.error = true;
+        break;
+
+      //delete studant
+      case Types.delete_studant_request:
+        draft.loading = true;
+        draft.error = false;
+        break;
+      case Types.delete_studant_success:
+        draft.loading = false;
+        draft.data =
+          state.data.find((studant) => studant.id !== payload.studantId) || [];
+        break;
+      case Types.delete_studant_failure:
         draft.loading = false;
         draft.error = true;
         break;

@@ -5,6 +5,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ButtonSignOut from '~/components/ButtonSignOut';
 
 import DashBoard from '~/pages/DashBoard';
+import StudantTrainig from '~/pages/StudantTrainig';
+import ViewTraining from '~/pages/ViewTraining';
+import AddStudantTraining from '~/pages/AddStudantTraining';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +24,21 @@ const Studant = () => (
       headerRight: () => <ButtonSignOut />,
     }}>
     <Stack.Screen options={{title: 'Home'}} name="Home" component={DashBoard} />
+    <Stack.Screen
+      options={{title: 'Aluno'}}
+      name="StudantTraining"
+      component={StudantTrainig}
+    />
+    <Stack.Screen
+      options={{title: 'Ficha'}}
+      name="ViewTraining"
+      component={ViewTraining}
+    />
+    <Stack.Screen
+      options={{title: 'Aderir Ficha'}}
+      name="AddStudantTraining"
+      component={AddStudantTraining}
+    />
   </Stack.Navigator>
 );
 export default Studant;

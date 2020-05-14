@@ -1,11 +1,14 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import {Container, StudantText, StudantView} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function ItemListStudant({studant: {id, name}}) {
+  const navigation = useNavigation();
   return (
-    <Container onPress={() => {}}>
+    <Container
+      onPress={() => navigation.navigate('StudantTraining', {studantId: id})}>
       <StudantView>
         <Icon name="user-circle" size={35} color="#000" />
         <StudantText>{name}</StudantText>

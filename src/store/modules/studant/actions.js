@@ -34,3 +34,21 @@ export const addStudantFailure = () => {
     type: Types.add_studant_failure,
   };
 };
+export const deleteStudantRequest = (studantId) => {
+  return {
+    type: Types.delete_studant_request,
+    payload: {studantId},
+  };
+};
+export const deleteStudantSuccess = (studantId) => {
+  return {
+    type: Types.delete_studant_success,
+    payload: {studantId},
+  };
+};
+
+export const deleteStudantFailure = () => {
+  return {
+    type: Types.delete_studant_failure,
+  };
+};
