@@ -51,26 +51,32 @@ const TrainingList = ({trainings, studantId}) => {
       data={trainings}
       keyExtractor={(item) => String(item.id)}
       numColumns={2}
-      renderItem={({item}) => (
-        <TrainingView>
-          <TrainingHeader>
-            <Data>{formatDate(item?.StudantTraining?.schedule)} </Data>
-            <Trash onPress={() => hahdleDeleteTraining(item.id)}>
-              <Icon name="trash-alt" size={14} color="#e02041" />
-            </Trash>
-          </TrainingHeader>
-          <TrainingImg source={imgTraining} />
-          <InfoView>
-            <TrainingName> {item.name} </TrainingName>
-            <MoreButton
-              onPress={() =>
-                naviagtion.navigate('ViewTraining', {trainingId: item.id})
-              }>
-              <MoreButtonText>Visualizar</MoreButtonText>
-            </MoreButton>
-          </InfoView>
-        </TrainingView>
-      )}
+      renderItem={({item}) => {
+        const schedule = formatDate(item?.StudantTraining?.schedule);
+        return (
+          <TrainingView>
+            <TrainingHeader>
+              <Data>{schedule} </Data>
+              <Trash onPress={() => hahdleDeleteTraining(item.id)}>
+                <Icon name="trash-alt" size={14} color="#e02041" />
+              </Trash>
+            </TrainingHeader>
+            <TrainingImg source={imgTraining} />
+            <InfoView>
+              <TrainingName> {item.name} </TrainingName>
+              <MoreButton
+                onPress={() =>
+                  naviagtion.navigate('ViewTraining', {
+                    trainingId: item.id,
+                    schedule,
+                  })
+                }>
+                <MoreButtonText>Visualizar</MoreButtonText>
+              </MoreButton>
+            </InfoView>
+          </TrainingView>
+        );
+      }}
     />
   );
 };

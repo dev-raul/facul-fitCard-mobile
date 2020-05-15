@@ -16,4 +16,8 @@ export default {
   delete_training_request: '@training/DELETE_REQUEST',
   delete_training_success: '@training/DELETE_SUCCESS',
   delete_training_failure: '@training/DELETE_FAILURE',
+
+  load_item_training_request: '@itemTraining/LOAD_REQUEST',
+  load_item_training_success: '@itemTraining/LOAD_SUCCESS',
+  load_item_training_failure: '@itemTraining/LOAD_FAILURE',
 };
