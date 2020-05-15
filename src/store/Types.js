@@ -9,13 +9,13 @@ export default {
   delete_studant_success: '@studant/DELETE_SUCCESS',
   delete_studant_failure: '@studant/DELETE_FAILURE',
 
-  load_training_request: '@training/LOAD_REQUEST',
-  load_training_success: '@training/LOAD_SUCCESS',
-  load_training_failure: '@training/LOAD_FAILURE',
+  load_studant_training_request: '@studantTraining/LOAD_REQUEST',
+  load_studant_training_success: '@studantTraining/LOAD_SUCCESS',
+  load_studant_training_failure: '@studantTraining/LOAD_FAILURE',
 
-  delete_training_request: '@training/DELETE_REQUEST',
-  delete_training_success: '@training/DELETE_SUCCESS',
-  delete_training_failure: '@training/DELETE_FAILURE',
+  delete_studant_training_request: '@studantTraining/DELETE_REQUEST',
+  delete_studant_training_success: '@studantTraining/DELETE_SUCCESS',
+  delete_studant_training_failure: '@studantTraining/DELETE_FAILURE',
 
   load_item_training_request: '@itemTraining/LOAD_REQUEST',
   load_item_training_success: '@itemTraining/LOAD_SUCCESS',

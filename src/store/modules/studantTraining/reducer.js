@@ -10,29 +10,37 @@ export default (state = initialState, {type, payload}) => {
   return produce(state, (draft) => {
     switch (type) {
       //load training
-      case Types.load_training_request:
+      case Types.load_studant_training_request:
         draft.loading = true;
         draft.error = false;
         break;
-      case Types.load_training_success:
+      case Types.load_studant_training_success:
         draft.loading = false;
         draft.data = payload.data;
         break;
-      case Types.load_training_failure:
+      case Types.load_studant_training_failure:
         draft.loading = false;
         draft.error = true;
         break;
 
       //delete training
-      case Types.delete_training_request:
+      case Types.delete_studant_training_request:
         break;
-      case Types.delete_training_success:
+      case Types.delete_studant_training_success:
         draft.loading = false;
-        draft.data =
+        let newData =
           state.data.find((training) => training.id !== payload.trainingId) ||
           [];
+
+        const verify = Array.isArray(newData);
+        if (!verify) {
+          draft.data = [newData];
+        } else {
+          draft.data = newData;
+        }
+
         break;
-      case Types.delete_training_failure:
+      case Types.delete_studant_training_failure:
         draft.loading = false;
         draft.error = true;
         break;

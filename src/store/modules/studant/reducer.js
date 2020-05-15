@@ -44,8 +44,16 @@ export default (state = initialState, {type, payload}) => {
         break;
       case Types.delete_studant_success:
         draft.loading = false;
-        draft.data =
+        let newData =
           state.data.find((studant) => studant.id !== payload.studantId) || [];
+
+        const verify = Array.isArray(newData);
+        if (!verify) {
+          draft.data = [newData];
+        } else {
+          draft.data = newData;
+        }
+
         break;
       case Types.delete_studant_failure:
         draft.loading = false;

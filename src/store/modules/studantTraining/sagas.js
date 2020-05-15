@@ -15,9 +15,11 @@ function* loadTraining({payload}) {
       `user/${id}/studant/${payload.studantId}/training`,
     );
 
-    yield put(TrainingActions.loadTrainingSuccess(response?.data?.trainings));
+    yield put(
+      TrainingActions.loadStudantTrainingSuccess(response?.data?.trainings),
+    );
   } catch (err) {
-    yield put(TrainingActions.loadTrainingFailure());
+    yield put(TrainingActions.loadStudantTrainingFailure());
   }
 }
 
@@ -30,13 +32,13 @@ function* deleteTraining({payload}) {
       api.delete,
       `user/${id}/studant/${payload.studantId}/training/${payload.trainingId}`,
     );
-    yield put(TrainingActions.deleteTrainingSuccess(payload.trainingId));
+    yield put(TrainingActions.deleteStudantTrainingSuccess(payload.trainingId));
   } catch (err) {
-    yield put(TrainingActions.deleteTrainingFailure());
+    yield put(TrainingActions.deleteStudantTrainingFailure());
     Alert.alert('Error:', 'Falha em delete o treino!');
   }
 }
 export default all([
-  takeLatest(Types.load_training_request, loadTraining),
-  takeLatest(Types.delete_training_request, deleteTraining),
+  takeLatest(Types.load_studant_training_request, loadTraining),
+  takeLatest(Types.delete_studant_training_request, deleteTraining),
 ]);

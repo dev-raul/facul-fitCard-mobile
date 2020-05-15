@@ -5,18 +5,18 @@ import {Container, Title, OpView, OpButton, InfoText} from './styles';
 import TrainingList from '~/components/TrainingList';
 
 import {deleteStudantRequest} from '~/store/modules/studant/actions';
-import {loadTrainingRequest} from '~/store/modules/training/actions';
+import {loadStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
 
 const StudantTrainig = ({route, navigation}) => {
   const dispatch = useDispatch();
   const studants = useSelector((state) => state.studant.data);
-  const {loading, data} = useSelector((state) => state.training);
+  const {loading, data} = useSelector((state) => state.studantTraining);
 
   const {studantId} = route.params;
   const [studant, setStudant] = useState({});
 
   useEffect(() => {
-    dispatch(loadTrainingRequest(studantId));
+    dispatch(loadStudantTrainingRequest(studantId));
   }, []);
 
   useEffect(() => {

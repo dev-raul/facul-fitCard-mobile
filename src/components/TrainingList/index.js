@@ -21,14 +21,14 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import imgTraining from '~/assets/icon.png';
 
-import {deleteTrainingRequest} from '~/store/modules/training/actions';
+import {deleteStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
 
 const TrainingList = ({trainings, studantId}) => {
   const naviagtion = useNavigation();
   const dispatch = useDispatch();
 
   function hahdleDeleteTraining(trainingId) {
-    dispatch(deleteTrainingRequest(studantId, trainingId));
+    dispatch(deleteStudantTrainingRequest(studantId, trainingId));
   }
 
   function formatDate(date) {
