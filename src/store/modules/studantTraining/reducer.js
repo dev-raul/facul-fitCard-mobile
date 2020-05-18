@@ -23,6 +23,31 @@ export default (state = initialState, {type, payload}) => {
         draft.error = true;
         break;
 
+      //add training
+
+      case Types.add_studant_training_request:
+        draft.loading = true;
+        draft.error = false;
+        break;
+      case Types.add_studant_training_success:
+        draft.loading = false;
+
+        let find =
+          state.data.find((training) => training.id !== payload.data) || [];
+        const verifyAdd = Array.isArray(find);
+
+        if (verifyAdd) {
+          draft.data = [payload.data, ...find];
+        } else {
+          draft.data = [payload.data, find];
+        }
+
+        break;
+      case Types.add_studant_training_failure:
+        draft.loading = false;
+        draft.error = true;
+        break;
+
       //delete training
       case Types.delete_studant_training_request:
         break;

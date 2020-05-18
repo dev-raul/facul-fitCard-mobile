@@ -6,7 +6,7 @@ export const Container = styled.View`
   align-items: center;
   background: #333;
   opacity: 0.9;
-  z-index: 100;
+  z-index: 50;
 `;
 export const Content = styled.View`
   align-self: stretch;

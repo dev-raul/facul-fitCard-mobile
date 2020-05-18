@@ -11,10 +11,28 @@ export const loadStudantTrainingSuccess = (data) => {
     payload: {data},
   };
 };
-
 export const loadStudantTrainingFailure = () => {
   return {
     type: Types.load_studant_training_failure,
+  };
+};
+
+export const addStudantTrainingRequest = (studantId, training, schedule) => {
+  return {
+    type: Types.add_studant_training_request,
+    payload: {studantId, training, schedule},
+  };
+};
+export const addStudantTrainingSuccess = (data) => {
+  return {
+    type: Types.add_studant_training_success,
+    payload: {data},
+  };
+};
+
+export const addStudantTrainingFailure = () => {
+  return {
+    type: Types.add_studant_training_failure,
   };
 };
 

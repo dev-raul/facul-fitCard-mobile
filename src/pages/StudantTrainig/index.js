@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Title, OpView, OpButton, InfoText} from './styles';
-import TrainingList from '~/components/TrainingList';
+import TrainingList from '~/components/StudantTrainingList';
 
 import {deleteStudantRequest} from '~/store/modules/studant/actions';
 import {loadStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
@@ -47,7 +47,10 @@ const StudantTrainig = ({route, navigation}) => {
         <OpButton
           color="rgba(255, 145, 0, 0.8)"
           onPress={() =>
-            navigation.navigate('AddStudantTraining', {studantId})
+            navigation.navigate('AddStudantTraining', {
+              studantId,
+              studantName: studant.name,
+            })
           }>
           Adicionar Ficha
         </OpButton>

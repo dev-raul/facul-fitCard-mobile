@@ -1,10 +1,14 @@
-import React from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+
 import PropTypes from 'prop-types';
-import {format, parseISO} from 'date-fns';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {formatDate} from '~/libs/date';
 import {
   Container,
+  List,
   TrainingView,
   TrainingHeader,
   Data,
@@ -16,54 +20,94 @@ import {
   MoreButtonText,
   TrainingEmptyView,
   TrainingEmptyText,
+  AddStudantTrainingButton,
+  AddStudantTrainingText,
+  ModalTitle,
+  ModalButtonInfo,
+  ModalButtonInfoText,
+  ModalDate,
+  ModalDateText,
 } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import imgTraining from '~/assets/icon.png';
 
-import {deleteStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
+import {format} from 'date-fns';
 
-const TrainingList = ({trainings, studantId}) => {
+import BaseModal from '~/components/Modal';
+import Button from '~/components/Button';
+
+import {addStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
+
+const TrainingList = ({trainings, studantId, addStudantTraining}) => {
   const naviagtion = useNavigation();
   const dispatch = useDispatch();
+  const {loading} = useSelector((state) => state.studantTraining);
 
-  function hahdleDeleteTraining(trainingId) {
-    dispatch(deleteStudantTrainingRequest(studantId, trainingId));
+  const [addTraining, setAddTraining] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [datePicketVisible, setDatePicketVisible] = useState(false);
+  const [addSchedule, setAddSchedule] = useState();
+
+  function hahdleDeleteTraining(trainingId) {}
+
+  function handleButtonAderir(addTraining) {
+    setAddTraining(addTraining);
+    setModalVisible(true);
   }
 
-  function formatDate(date) {
-    const dateIso = parseISO(date);
-    return format(dateIso, 'dd/MM/yyyy');
-  }
+  const handleCancelModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleSubmitAddStudantTraining = () => {
+    dispatch(
+      addStudantTrainingRequest(
+        studantId,
+        addTraining,
+        format(addSchedule, 'yyyy-MM-dd'),
+      ),
+    );
+  };
 
   if (trainings.length === 0) {
     return (
       <TrainingEmptyView>
         <Icon name="file-alt" color="#e02041" size={40} />
         <TrainingEmptyText>
-          Esse aluno ainda não possui treinos!
+          Você não tem nenhum modelo de ficha!
         </TrainingEmptyText>
       </TrainingEmptyView>
     );
   }
   return (
-    <Container
-      data={trainings}
-      keyExtractor={(item) => String(item.id)}
-      numColumns={2}
-      renderItem={({item}) => {
-        const schedule = formatDate(item?.StudantTraining?.schedule);
-        return (
-          <TrainingView>
-            <TrainingHeader>
-              <Data>{schedule} </Data>
-              <Trash onPress={() => hahdleDeleteTraining(item.id)}>
-                <Icon name="trash-alt" size={14} color="#e02041" />
-              </Trash>
-            </TrainingHeader>
-            <TrainingImg source={imgTraining} />
-            <InfoView>
-              <TrainingName> {item.name} </TrainingName>
+    <>
+      <List
+        data={trainings}
+        keyExtractor={(item) => String(item.id)}
+        numColumns={2}
+        renderItem={({item}) => {
+          const schedule = formatDate(item?.createdAt);
+          return (
+            <TrainingView>
+              {addStudantTraining ? (
+                <AddStudantTrainingButton
+                  onPress={() => handleButtonAderir(item)}>
+                  <AddStudantTrainingText>Aderir</AddStudantTrainingText>
+                </AddStudantTrainingButton>
+              ) : (
+                <TrainingHeader>
+                  <Data>{schedule} </Data>
+                  <Trash onPress={() => hahdleDeleteTraining(item.id)}>
+                    <Icon name="trash-alt" size={14} color="#e02041" />
+                  </Trash>
+                </TrainingHeader>
+              )}
+
+              <TrainingImg source={imgTraining} />
+              <InfoView>
+                <TrainingName> {item.name} </TrainingName>
+              </InfoView>
+
               <MoreButton
                 onPress={() =>
                   naviagtion.navigate('ViewTraining', {
@@ -73,21 +117,68 @@ const TrainingList = ({trainings, studantId}) => {
                 }>
                 <MoreButtonText>Visualizar</MoreButtonText>
               </MoreButton>
-            </InfoView>
-          </TrainingView>
-        );
-      }}
-    />
+            </TrainingView>
+          );
+        }}
+      />
+      <BaseModal visible={modalVisible} onRequestClose={handleCancelModal}>
+        <ModalTitle>Informe os dados necessários:</ModalTitle>
+        <ModalDate onPress={() => setDatePicketVisible(true)}>
+          <ModalDateText>
+            {addSchedule
+              ? format(addSchedule, 'dd/MM/yyyy')
+              : 'Data de termino da ficha'}
+          </ModalDateText>
+        </ModalDate>
+
+        {datePicketVisible && (
+          <DateTimePicker
+            value={addSchedule || new Date()}
+            mode="date"
+            display="spinner"
+            minimumDate={new Date()}
+            formatDate="YYYY-MM-DD"
+            onChange={(event, selectedDate) => {
+              setDatePicketVisible(false);
+              if (event.type === 'set') {
+                setAddSchedule(selectedDate);
+              }
+            }}
+          />
+        )}
+
+        <Button
+          opacity={true}
+          loading={loading}
+          color="#69F0AE"
+          onPress={handleSubmitAddStudantTraining}>
+          Aderir
+        </Button>
+        <ModalButtonInfo onPress={handleCancelModal}>
+          <ModalButtonInfoText>Cancelar</ModalButtonInfoText>
+        </ModalButtonInfo>
+      </BaseModal>
+    </>
   );
 };
 
 TrainingList.defaultProps = {
   trainings: [],
+  addStudantTraining: false,
 };
 
 TrainingList.propTypes = {
   trainings: PropTypes.array.isRequired,
   studantId: PropTypes.number.isRequired,
+  addStudantTraining: PropTypes.bool,
 };
-
+const style = StyleSheet.create({
+  datePicker: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0, 0.2)',
+    borderRadius: 4,
+    borderColor: 'rgba(0,0,0, 0.2)',
+    marginBottom: 10,
+  },
+});
 export default TrainingList;

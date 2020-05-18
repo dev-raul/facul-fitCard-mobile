@@ -23,8 +23,33 @@ function* loadTraining({payload}) {
   }
 }
 
+function* addTraining({payload}) {
+  const {training, studantId, schedule} = payload;
+
+  try {
+    const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
+    const {id} = JSON.parse(storageUser);
+
+    yield call(
+      api.post,
+      `user/${id}/studant/${studantId}/training/${training.id}`,
+      {schedule},
+    );
+
+    yield put(
+      TrainingActions.addStudantTrainingSuccess({
+        ...training,
+        StudantTraining: {schedule, studant_id: studantId},
+      }),
+    );
+    Alert.alert('Sucesso em aderir a ficha ao aluno!');
+  } catch (err) {
+    Alert.alert('Error:', 'Falha em aderir a ficha ao aluno!');
+    yield put(TrainingActions.addStudantTrainingFailure());
+  }
+}
+
 function* deleteTraining({payload}) {
-  console.log(payload.trainingId);
   try {
     const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
     const {id} = JSON.parse(storageUser);
@@ -41,4 +66,5 @@ function* deleteTraining({payload}) {
 export default all([
   takeLatest(Types.load_studant_training_request, loadTraining),
   takeLatest(Types.delete_studant_training_request, deleteTraining),
+  takeLatest(Types.add_studant_training_request, addTraining),
 ]);

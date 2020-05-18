@@ -1,9 +1,8 @@
 import styled from 'styled-components/native';
 import {FlatList} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
-import Input from '~/components/Input';
 
-export const List = styled(FlatList).attrs({
+export const Container = styled(FlatList).attrs({
   columnWrapperStyle: {justifyContent: 'space-around'},
 })`
   margin-top: 15px;
@@ -62,49 +61,4 @@ export const TrainingEmptyText = styled.Text`
   color: #e02041;
   font-size: 20px;
   font-weight: 400;
-`;
-
-export const AddStudantTrainingButton = styled(RectButton)`
-  align-self: stretch;
-  background: #e02041;
-  height: 30px;
-  border-radius: 4px;
-  align-items: center;
-  justify-content: center;
-`;
-export const AddStudantTrainingText = styled.Text`
-  font-size: 18px;
-  font-weight: 500;
-  color: #fff;
-`;
-
-export const ModalTitle = styled.Text`
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 10px;
-`;
-
-export const ModalDate = styled.TouchableOpacity`
-  padding: 0 15px;
-  height: 46px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-export const ModalDateText = styled.Text`
-  text-align: center;
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 15px;
-`;
-
-export const ModalButtonInfo = styled.TouchableOpacity`
-  align-items: center;
-`;
-export const ModalButtonInfoText = styled.Text`
-  padding: 10px 30px;
-  font-weight: bold;
-  color: #e02041;
 `;
