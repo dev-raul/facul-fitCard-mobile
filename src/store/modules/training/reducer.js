@@ -16,9 +16,46 @@ export default (state = initialState, {type, payload}) => {
         break;
       case Types.load_training_success:
         draft.loading = false;
-        draft.data = payload.data;
+        draft.data = payload.data.trainings;
         break;
       case Types.load_training_failure:
+        draft.loading = false;
+        draft.error = true;
+        break;
+
+      //add training
+      case Types.add_training_request:
+        draft.loading = true;
+        draft.error = false;
+        break;
+      case Types.add_training_success:
+        draft.loading = false;
+
+        draft.data = [payload.data, ...state.data];
+        break;
+      case Types.add_training_failure:
+        draft.loading = false;
+        draft.error = true;
+        break;
+
+      //deleye training
+      case Types.delete_training_request:
+        draft.error = false;
+        break;
+      case Types.delete_training_success:
+        draft.loading = false;
+        let {trainingId} = payload;
+        let newData =
+          state.data.filter((training) => training.id !== trainingId) || [];
+
+        const verify = Array.isArray(newData);
+        if (!verify) {
+          draft.data = [newData];
+        } else {
+          draft.data = newData;
+        }
+        break;
+      case Types.delete_training_failure:
         draft.loading = false;
         draft.error = true;
         break;

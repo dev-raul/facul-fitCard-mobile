@@ -18,4 +18,39 @@ function* loadTraining() {
   }
 }
 
-export default all([takeLatest(Types.load_training_request, loadTraining)]);
+function* addTraining({payload}) {
+  try {
+    const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
+    const {id} = JSON.parse(storageUser);
+
+    const response = yield call(api.post, `user/${id}/training`, payload.data);
+
+    yield put(TrainingActions.addTrainingSuccess(response.data));
+    Alert.alert('Ficha criado!', 'É preciso criar os exercícios da ficha');
+  } catch (err) {
+    yield put(TrainingActions.addTrainingFailure());
+    Alert.alert('Error: ', 'Falha ao criar uma ficha!');
+  }
+}
+function* deleteTraining({payload}) {
+  try {
+    const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
+    const {id} = JSON.parse(storageUser);
+
+    const response = yield call(
+      api.delete,
+      `user/${id}/training/${payload.trainingId}`,
+    );
+
+    yield put(TrainingActions.deleteTrainingSuccess(payload.trainingId));
+  } catch (err) {
+    yield put(TrainingActions.deleteTrainingFailure());
+    Alert.alert('Error: ', 'Falha em deletar uma ficha!');
+  }
+}
+
+export default all([
+  takeLatest(Types.load_training_request, loadTraining),
+  takeLatest(Types.add_training_request, addTraining),
+  takeLatest(Types.delete_training_request, deleteTraining),
+]);

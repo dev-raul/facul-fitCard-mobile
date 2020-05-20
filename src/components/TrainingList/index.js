@@ -37,8 +37,14 @@ import BaseModal from '~/components/Modal';
 import Button from '~/components/Button';
 
 import {addStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
+import {deleteTrainingRequest} from '~/store/modules/training/actions';
 
-const TrainingList = ({trainings, studantId, addStudantTraining}) => {
+const TrainingList = ({
+  trainings,
+  studantId,
+  addStudantTraining,
+  navigationCard,
+}) => {
   const naviagtion = useNavigation();
   const dispatch = useDispatch();
   const {loading} = useSelector((state) => state.studantTraining);
@@ -48,13 +54,32 @@ const TrainingList = ({trainings, studantId, addStudantTraining}) => {
   const [datePicketVisible, setDatePicketVisible] = useState(false);
   const [addSchedule, setAddSchedule] = useState();
 
-  function hahdleDeleteTraining(trainingId) {}
+  function hahdleDeleteTraining(trainingId) {
+    dispatch(deleteTrainingRequest(trainingId));
+  }
 
   function handleButtonAderir(addTraining) {
     setAddTraining(addTraining);
     setModalVisible(true);
   }
 
+  const handleNavigation = (id, schedule) => {
+    if (navigationCard) {
+      naviagtion.navigate('ViewTraining', {
+        trainingId: id,
+        schedule,
+        write: true,
+      });
+    } else {
+      naviagtion.navigate('DashBoard', {
+        screen: 'ViewTraining',
+        params: {
+          trainingId: id,
+          schedule,
+        },
+      });
+    }
+  };
   const handleCancelModal = () => {
     setModalVisible(false);
   };
@@ -108,13 +133,7 @@ const TrainingList = ({trainings, studantId, addStudantTraining}) => {
                 <TrainingName> {item.name} </TrainingName>
               </InfoView>
 
-              <MoreButton
-                onPress={() =>
-                  naviagtion.navigate('ViewTraining', {
-                    trainingId: item.id,
-                    schedule,
-                  })
-                }>
+              <MoreButton onPress={() => handleNavigation(item.id, schedule)}>
                 <MoreButtonText>Visualizar</MoreButtonText>
               </MoreButton>
             </TrainingView>
@@ -165,20 +184,14 @@ const TrainingList = ({trainings, studantId, addStudantTraining}) => {
 TrainingList.defaultProps = {
   trainings: [],
   addStudantTraining: false,
+  navigationCard: false,
 };
 
 TrainingList.propTypes = {
   trainings: PropTypes.array.isRequired,
-  studantId: PropTypes.number.isRequired,
+  studantId: PropTypes.number,
+  navigationCard: PropTypes.bool,
   addStudantTraining: PropTypes.bool,
 };
-const style = StyleSheet.create({
-  datePicker: {
-    width: '100%',
-    backgroundColor: 'rgba(0,0,0, 0.2)',
-    borderRadius: 4,
-    borderColor: 'rgba(0,0,0, 0.2)',
-    marginBottom: 10,
-  },
-});
+
 export default TrainingList;

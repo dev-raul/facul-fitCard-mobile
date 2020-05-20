@@ -4,7 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import StackStudant from './StackStudant.routes';
-import Training from '~/pages/Training';
+import StackTraining from './StackTraining.routes';
+
 import Settings from '~/pages/Settings';
 
 const Tab = createBottomTabNavigator();
@@ -37,7 +38,7 @@ const DashBoardRoute = () => (
       },
     }}>
     <Tab.Screen name="DashBoard" component={StackStudant} />
-    <Tab.Screen name="Training" component={Training} />
+    <Tab.Screen name="Training" component={StackTraining} />
     <Tab.Screen name="Settings" component={Settings} />
   </Tab.Navigator>
 );

@@ -29,7 +29,7 @@ const AddStudantTraining = ({route}) => {
       <Info>Aluno: {studantName}</Info>
       <Title>Todos os modelos de ficha:</Title>
       <TrainingList
-        trainings={data.trainings}
+        trainings={data}
         studantId={studantId}
         addStudantTraining={true}
       />

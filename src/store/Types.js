@@ -28,4 +28,12 @@ export default {
   load_training_request: '@training/LOAD_REQUEST',
   load_training_success: '@training/LOAD_SUCCESS',
   load_training_failure: '@training/LOAD_FAILURE',
+
+  add_training_request: '@training/ADD_REQUEST',
+  add_training_success: '@training/ADD_SUCCESS',
+  add_training_failure: '@training/ADD_FAILURE',
+
+  delete_training_request: '@training/DELETE_REQUEST',
+  delete_training_success: '@training/DELETE_SUCCESS',
+  delete_training_failure: '@training/DELETE_FAILURE',
 };
