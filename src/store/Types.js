@@ -25,6 +25,14 @@ export default {
   load_item_training_success: '@itemTraining/LOAD_SUCCESS',
   load_item_training_failure: '@itemTraining/LOAD_FAILURE',
 
+  add_item_training_request: '@itemTraining/ADD_REQUEST',
+  add_item_training_success: '@itemTraining/ADD_SUCCESS',
+  add_item_training_failure: '@itemTraining/ADD_FAILURE',
+
+  delete_item_training_request: '@itemTraining/DELETE_REQUEST',
+  delete_item_training_success: '@itemTraining/DELETE_SUCCESS',
+  delete_item_training_failure: '@itemTraining/DELETE_FAILURE',
+
   load_training_request: '@training/LOAD_REQUEST',
   load_training_success: '@training/LOAD_SUCCESS',
   load_training_failure: '@training/LOAD_FAILURE',

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {FlatList} from 'react-native';
+import Button from '~/components/Button';
 
 export const Container = styled.View`
   padding: 20px 20px 0 20px;
@@ -20,8 +21,13 @@ export const Date = styled.Text`
   font-size: 18px;
   font-weight: 400;
 `;
+export const AddItemButton = styled(Button).attrs({
+  color: '#e02041',
+})`
+  margin-top: 10px;
+`;
 export const MainText = styled.Text`
-  margin-top: 25px;
+  margin: 10px 0;
   font-size: 18px;
   font-weight: 400;
 `;

@@ -17,6 +17,38 @@ function* loadItemsTraining({payload}) {
   }
 }
 
+function* addItemsTraining({payload}) {
+  console.log(payload);
+  try {
+    const response = yield call(
+      api.post,
+      `/training/${payload.trainingId}/item`,
+      payload.data,
+    );
+    yield put(ItemTrainingActions.addItemTrainingSuccess(response?.data));
+    Alert.alert('Sucesso em criar um item da ficha!');
+  } catch (err) {
+    Alert.alert('Error:', 'Falha em criar um item da ficha!');
+    yield put(ItemTrainingActions.addItemTrainingFailure());
+  }
+}
+
+function* deleteItemsTraining({payload}) {
+  try {
+    yield call(
+      api.delete,
+      `/training/${payload.trainingId}/item/${payload.itemId}`,
+    );
+    yield put(ItemTrainingActions.deleteItemTrainingSuccess(payload.itemId));
+    Alert.alert('Sucesso em deletar o item da ficha!');
+  } catch (err) {
+    Alert.alert('Error:', 'Falha em deletar item da ficha!');
+    yield put(ItemTrainingActions.deleteItemTrainingFailure());
+  }
+}
+
 export default all([
   takeLatest(Types.load_item_training_request, loadItemsTraining),
+  takeLatest(Types.add_item_training_request, addItemsTraining),
+  takeLatest(Types.delete_item_training_request, deleteItemsTraining),
 ]);

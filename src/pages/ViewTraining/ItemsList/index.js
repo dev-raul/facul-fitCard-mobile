@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -8,11 +9,28 @@ import {
   Description,
   ButtonInfo,
   ButtonInfoText,
+  Row,
+  InfoButton,
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BaseModal from '~/components/Modal';
-const ItemsList = ({items}) => {
+
+import {deleteItemTrainingRequest} from '~/store/modules/itemsTraining/actions';
+
+const ItemsList = ({items, write}) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const {loading, training} = useSelector((state) => state.itemTraining);
+
+  const handleDeleteItem = () => {
+    dispatch(deleteItemTrainingRequest(training.id, items.id));
+  };
+  const handleEditItem = () => {
+    setModalVisible(false);
+    navigation.navigate('EditItem');
+  };
   return (
     <Container>
       <ItemText style={{flex: 5, textAlign: 'left'}}>
@@ -31,16 +49,35 @@ const ItemsList = ({items}) => {
         <Description>
           {items.observation === null ? 'Sem observações' : items.observation}
         </Description>
-        <ButtonInfo onPress={() => setModalVisible(false)}>
+        {write && (
+          <Row>
+            <InfoButton
+              opacity={true}
+              color="rgba(255, 145, 0, 0.8)"
+              onPress={handleEditItem}>
+              Editar
+            </InfoButton>
+            <InfoButton
+              opacity={true}
+              color="rgba(213, 0, 0, 0.8)"
+              onPress={handleDeleteItem}>
+              Deletar
+            </InfoButton>
+          </Row>
+        )}
+        <ButtonInfo opacity={true} onPress={() => setModalVisible(false)}>
           <ButtonInfoText>voltar</ButtonInfoText>
         </ButtonInfo>
       </BaseModal>
     </Container>
   );
 };
-
+ItemsList.defaultProps = {
+  write: false,
+};
 ItemsList.propTypes = {
   items: PropTypes.object.isRequired,
+  write: PropTypes.bool,
 };
 
 export default ItemsList;

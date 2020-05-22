@@ -6,6 +6,7 @@ import ButtonSignOut from '~/components/ButtonSignOut';
 
 import Training from '~/pages/Training';
 import ViewTraining from '~/pages/ViewTraining';
+import EditItem from '~/pages/EditItem';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ const StackTraining = () => (
       options={{title: 'Exercícios'}}
       name="ViewTraining"
       component={ViewTraining}
+    />
+    <Stack.Screen
+      options={{title: 'Editar Exercício'}}
+      name="EditItem"
+      component={EditItem}
     />
   </Stack.Navigator>
 );

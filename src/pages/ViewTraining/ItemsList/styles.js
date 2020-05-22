@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Button from '~/components/Button';
 export const Container = styled.View`
   flex-direction: row;
   align-items: center;
@@ -27,4 +28,16 @@ export const ButtonInfoText = styled.Text`
   font-weight: bold;
   text-align: center;
   color: #e02041;
+`;
+
+export const Row = styled.View`
+  width: 100%;
+  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+`;
+
+export const InfoButton = styled(Button)`
+  width: 45%;
 `;

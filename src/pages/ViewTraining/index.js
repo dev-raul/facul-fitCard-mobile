@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {useSelector, useDispatch} from 'react-redux';
 import {ActivityIndicator, ScrollView} from 'react-native';
 
@@ -7,6 +8,7 @@ import {
   Header,
   Name,
   Date,
+  AddItemButton,
   MainText,
   ItemsTraining,
   HeaderListView,
@@ -19,17 +21,19 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {loadItemTrainingRequest} from '~/store/modules/itemsTraining/actions';
 
 import ItemList from './ItemsList';
+import ModalAddItem from './ModalAddItem';
 
 const ViewTraining = ({route}) => {
   const dispatch = useDispatch();
-  const {data, loading} = useSelector((state) => state.itemTraining);
+  const {data, loading, training} = useSelector((state) => state.itemTraining);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const {trainingId, schedule} = route.params;
+  const {trainingId, schedule, write} = route.params;
   useEffect(() => {
     dispatch(loadItemTrainingRequest(trainingId));
   }, []);
 
-  if (loading === null || loading) {
+  if ((loading === null || loading) && !modalVisible) {
     return (
       <Container>
         <ActivityIndicator size="small" color="#e02041" />
@@ -40,12 +44,24 @@ const ViewTraining = ({route}) => {
   return (
     <Container>
       <Header>
-        <Name>{data.name}</Name>
+        <Name>{training.name}</Name>
         <Date>{schedule}</Date>
       </Header>
+      {write && (
+        <>
+          <AddItemButton onPress={() => setModalVisible(true)}>
+            Adicionar Exercício
+          </AddItemButton>
+          <ModalAddItem
+            trainingId={trainingId}
+            visible={modalVisible}
+            onCancel={() => setModalVisible(false)}
+          />
+        </>
+      )}
       <MainText>Serie de exercícios:</MainText>
 
-      {data?.item_trainings.length === 0 ? (
+      {data.length === 0 ? (
         <TrainingEmptyView>
           <Icon name="file-alt" color="#e02041" size={40} />
           <TrainingEmptyText>
@@ -64,14 +80,22 @@ const ViewTraining = ({route}) => {
             <HeaderListText style={{flex: 1}}></HeaderListText>
           </HeaderListView>
           <ItemsTraining
-            data={data.item_trainings}
-            renderItem={({item}) => <ItemList items={item} />}
+            data={data}
+            renderItem={({item}) => <ItemList write={write} items={item} />}
             keyExtractor={(item) => String(item.id)}
           />
         </>
       )}
     </Container>
   );
+};
+
+ViewTraining.defautProps = {
+  write: false,
+};
+
+ViewTraining.propTYpes = {
+  write: PropTypes.bool,
 };
 
 export default ViewTraining;
