@@ -5,8 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import StackStudant from './StackStudant.routes';
 import StackTraining from './StackTraining.routes';
-
-import Settings from '~/pages/Settings';
+import StackSetting from './StackSettingsUser.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +20,7 @@ const DashBoardRoute = () => (
         if (route.name === 'Training') {
           iconName = 'file-alt';
         }
-        if (route.name === 'Settings') {
+        if (route.name === 'SettingsUser') {
           iconName = 'user-cog';
         }
 
@@ -39,7 +38,7 @@ const DashBoardRoute = () => (
     }}>
     <Tab.Screen name="DashBoard" component={StackStudant} />
     <Tab.Screen name="Training" component={StackTraining} />
-    <Tab.Screen name="Settings" component={Settings} />
+    <Tab.Screen name="SettingsUser" component={StackSetting} />
   </Tab.Navigator>
 );
 

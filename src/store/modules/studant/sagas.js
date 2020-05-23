@@ -29,7 +29,6 @@ function* addStudant({payload}) {
 }
 function* deleteStudant({payload}) {
   try {
-    console.log(payload);
     const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
     const {id} = JSON.parse(storageUser);
     const response = yield call(
