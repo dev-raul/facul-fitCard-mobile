@@ -35,7 +35,6 @@ export default function SignIn({route, navigation}) {
     try {
       const data = provider ? {username, password} : {id_hash: id};
       await SignIn(data, provider);
-      setLoading(false);
     } catch (err) {
       setError(true);
       setLoading(false);

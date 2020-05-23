@@ -23,7 +23,7 @@ import imgTraining from '~/assets/icon.png';
 
 import {deleteStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
 
-const TrainingList = ({trainings, studantId}) => {
+const TrainingList = ({trainings, studantId}, read) => {
   const naviagtion = useNavigation();
   const dispatch = useDispatch();
 
@@ -51,10 +51,16 @@ const TrainingList = ({trainings, studantId}) => {
         return (
           <TrainingView>
             <TrainingHeader>
-              <Data>{schedule} </Data>
-              <Trash onPress={() => hahdleDeleteTraining(item.id)}>
-                <Icon name="trash-alt" size={14} color="#e02041" />
-              </Trash>
+              {read ? (
+                <Data style={{width: '100%'}}>{schedule} </Data>
+              ) : (
+                <>
+                  <Data>{schedule} </Data>
+                  <Trash onPress={() => hahdleDeleteTraining(item.id)}>
+                    <Icon name="trash-alt" size={14} color="#e02041" />
+                  </Trash>
+                </>
+              )}
             </TrainingHeader>
             <TrainingImg source={imgTraining} />
             <InfoView>
@@ -78,11 +84,13 @@ const TrainingList = ({trainings, studantId}) => {
 
 TrainingList.defaultProps = {
   trainings: [],
+  read: false,
 };
 
 TrainingList.propTypes = {
   trainings: PropTypes.array.isRequired,
   studantId: PropTypes.number.isRequired,
+  read: PropTypes.bool,
 };
 
 export default TrainingList;

@@ -15,8 +15,8 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.load_studant_success:
-        draft.loading = false;
         draft.data = payload.data;
+        draft.loading = false;
         break;
       case Types.load_studant_failure:
         draft.loading = false;
@@ -29,8 +29,8 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.add_studant_success:
-        draft.loading = false;
         draft.data = [payload.studant, ...state.data];
+        draft.loading = false;
         break;
       case Types.add_studant_failure:
         draft.loading = false;
@@ -43,7 +43,6 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.delete_studant_success:
-        draft.loading = false;
         let newData =
           state.data.filter((studant) => studant.id !== payload.studantId) ||
           [];
@@ -55,6 +54,7 @@ export default (state = initialState, {type, payload}) => {
           draft.data = newData;
         }
 
+        draft.loading = false;
         break;
       case Types.delete_studant_failure:
         draft.loading = false;

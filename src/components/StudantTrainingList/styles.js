@@ -22,6 +22,7 @@ export const TrainingHeader = styled.View`
 `;
 export const Data = styled.Text`
   font-size: 12px;
+  text-align: center;
 `;
 export const Trash = styled.TouchableOpacity``;
 export const TrainingImg = styled.Image`

@@ -8,13 +8,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 function* loadTraining({payload}) {
   try {
     const storageUser = yield call(AsyncStorage.getItem, '@FC_Auth:user');
-    const {id} = JSON.parse(storageUser);
-
+    const user = JSON.parse(storageUser);
+    const userId = user.provider ? user.id : user.user_id;
     const response = yield call(
       api.get,
-      `user/${id}/studant/${payload.studantId}/training`,
+      `user/${userId}/studant/${payload.studantId}/training`,
     );
-
     yield put(
       TrainingActions.loadStudantTrainingSuccess(response?.data?.trainings),
     );

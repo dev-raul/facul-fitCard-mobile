@@ -24,23 +24,20 @@ export function AuthProvider({children}) {
         api.defaults.headers.Authorization = `Bearer ${storageToken}`;
         setUser(JSON.parse(storageUser));
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+      setLoading(false);
     }
     loadStorage();
   }, []);
 
   async function SignIn(data, provider) {
     const response = await api.post('/session', data, {headers: {provider}});
-
-    setUser(response.data.user);
     await AsyncStorage.setItem(
       '@FC_Auth:user',
-      JSON.stringify(response.data.user),
+      JSON.stringify({...response.data.user, provider}),
     );
     await AsyncStorage.setItem('@FC_Auth:token', response.data.token);
     api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+    setUser({...response.data.user, provider});
   }
   function SignOut() {
     AsyncStorage.clear().then(() => setUser(null));
