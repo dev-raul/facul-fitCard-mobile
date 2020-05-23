@@ -28,7 +28,7 @@ function* addItemsTraining({payload}) {
     yield put(ItemTrainingActions.addItemTrainingSuccess(response?.data));
     Alert.alert('Sucesso em criar um item da ficha!');
   } catch (err) {
-    Alert.alert('Error:', 'Falha em criar um item da ficha!');
+    Alert.alert('Error:', 'Informe novamente os dados!');
     yield put(ItemTrainingActions.addItemTrainingFailure());
   }
 }
@@ -47,8 +47,29 @@ function* deleteItemsTraining({payload}) {
   }
 }
 
+function* updateItemsTraining({payload}) {
+  try {
+    yield call(
+      api.put,
+      `/training/${payload.trainingId}/item/${payload.itemId}`,
+      payload.data,
+    );
+    yield put(
+      ItemTrainingActions.updateItemTrainingSuccess({
+        id: payload.itemId,
+        ...payload.data,
+      }),
+    );
+    Alert.alert('Sucesso em atualizar um item da ficha!');
+  } catch (err) {
+    Alert.alert('Error:', 'Falha em atualizar um item da ficha!');
+    yield put(ItemTrainingActions.updateItemTrainingFailure());
+  }
+}
+
 export default all([
   takeLatest(Types.load_item_training_request, loadItemsTraining),
   takeLatest(Types.add_item_training_request, addItemsTraining),
   takeLatest(Types.delete_item_training_request, deleteItemsTraining),
+  takeLatest(Types.update_item_training_request, updateItemsTraining),
 ]);

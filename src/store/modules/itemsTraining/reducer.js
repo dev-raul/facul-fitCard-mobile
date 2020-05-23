@@ -43,7 +43,6 @@ export default (state = initialState, {type, payload}) => {
 
       //delete item training
       case Types.delete_item_training_request:
-        // draft.loading = true;
         draft.error = false;
         break;
       case Types.delete_item_training_success:
@@ -59,6 +58,25 @@ export default (state = initialState, {type, payload}) => {
         }
         break;
       case Types.delete_item_training_failure:
+        draft.loading = false;
+        draft.error = true;
+        break;
+
+      //update item training
+      case Types.update_item_training_request:
+        draft.loading = true;
+        draft.error = false;
+        break;
+      case Types.update_item_training_success:
+        draft.loading = false;
+        draft.data = state.data.map((item) => {
+          if (item.id === payload.data.id) {
+            return {...item, ...payload.data};
+          }
+        });
+
+        break;
+      case Types.update_item_training_failure:
         draft.loading = false;
         draft.error = true;
         break;

@@ -33,6 +33,10 @@ export default {
   delete_item_training_success: '@itemTraining/DELETE_SUCCESS',
   delete_item_training_failure: '@itemTraining/DELETE_FAILURE',
 
+  update_item_training_request: '@itemTraining/UPDATE_REQUEST',
+  update_item_training_success: '@itemTraining/UPDATE_SUCCESS',
+  update_item_training_failure: '@itemTraining/UPDATE_FAILURE',
+
   load_training_request: '@training/LOAD_REQUEST',
   load_training_success: '@training/LOAD_SUCCESS',
   load_training_failure: '@training/LOAD_FAILURE',

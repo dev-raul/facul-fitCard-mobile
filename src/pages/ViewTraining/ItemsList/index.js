@@ -29,7 +29,7 @@ const ItemsList = ({items, write}) => {
   };
   const handleEditItem = () => {
     setModalVisible(false);
-    navigation.navigate('EditItem');
+    navigation.navigate('EditItem', {itemId: items.id});
   };
   return (
     <Container>

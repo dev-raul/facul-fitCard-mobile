@@ -55,3 +55,22 @@ export const deleteItemTrainingFailure = () => {
     type: Types.delete_item_training_failure,
   };
 };
+
+export const updateItemTrainingRequest = (trainingId, itemId, data) => {
+  return {
+    type: Types.update_item_training_request,
+    payload: {trainingId, itemId, data},
+  };
+};
+export const updateItemTrainingSuccess = (data) => {
+  return {
+    type: Types.update_item_training_success,
+    payload: {data},
+  };
+};
+
+export const updateItemTrainingFailure = () => {
+  return {
+    type: Types.update_item_training_failure,
+  };
+};
