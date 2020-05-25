@@ -13,19 +13,18 @@ import {
   ItemsTraining,
   HeaderListView,
   HeaderListText,
-  TrainingEmptyText,
-  TrainingEmptyView,
 } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {loadItemTrainingRequest} from '~/store/modules/itemsTraining/actions';
 
 import ItemList from './ItemsList';
 import ModalAddItem from './ModalAddItem';
+import EmptyList from '~/components/EmptyList';
 
 const ViewTraining = ({route}) => {
   const dispatch = useDispatch();
   const {data, loading, training} = useSelector((state) => state.itemTraining);
+  const [isLoad, setIsLoad] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
   const {trainingId, schedule, write} = route.params;
@@ -33,61 +32,69 @@ const ViewTraining = ({route}) => {
     dispatch(loadItemTrainingRequest(trainingId));
   }, []);
 
-  if ((loading === null || loading) && !modalVisible) {
+  if (isLoad) {
+    if (loading) {
+      setIsLoad(false);
+    }
+    return (
+      <Container>
+        <ActivityIndicator size="small" color="#e02041" />
+      </Container>
+    );
+  } else if (!loading || modalVisible) {
+    return (
+      <Container>
+        <Header>
+          <Name>{training.name}</Name>
+          <Date>{schedule}</Date>
+        </Header>
+        {write && (
+          <>
+            <AddItemButton onPress={() => setModalVisible(true)}>
+              Adicionar Exercício
+            </AddItemButton>
+            <ModalAddItem
+              trainingId={trainingId}
+              visible={modalVisible}
+              onCancel={() => setModalVisible(false)}
+            />
+          </>
+        )}
+        <MainText>Items da ficha:</MainText>
+
+        {data.length === 0 ? (
+          <EmptyList icon="file-alt">
+            {write
+              ? 'Crie os exercícios!'
+              : 'Essa ficha ainda não possui exercícios! Fale com o seu personal'}
+          </EmptyList>
+        ) : (
+          <>
+            <HeaderListView>
+              <HeaderListText style={{flex: 5, textAlign: 'left'}}>
+                Aparelho
+              </HeaderListText>
+              <HeaderListText style={{flex: 2}}>S X R</HeaderListText>
+
+              <HeaderListText style={{flex: 2}}>Pe</HeaderListText>
+              <HeaderListText style={{flex: 1}}></HeaderListText>
+            </HeaderListView>
+            <ItemsTraining
+              data={data}
+              renderItem={({item}) => <ItemList write={write} items={item} />}
+              keyExtractor={(item) => String(item.id)}
+            />
+          </>
+        )}
+      </Container>
+    );
+  } else {
     return (
       <Container>
         <ActivityIndicator size="small" color="#e02041" />
       </Container>
     );
   }
-
-  return (
-    <Container>
-      <Header>
-        <Name>{training.name}</Name>
-        <Date>{schedule}</Date>
-      </Header>
-      {write && (
-        <>
-          <AddItemButton onPress={() => setModalVisible(true)}>
-            Adicionar Exercício
-          </AddItemButton>
-          <ModalAddItem
-            trainingId={trainingId}
-            visible={modalVisible}
-            onCancel={() => setModalVisible(false)}
-          />
-        </>
-      )}
-      <MainText>Serie de exercícios:</MainText>
-
-      {data.length === 0 ? (
-        <TrainingEmptyView>
-          <Icon name="file-alt" color="#e02041" size={40} />
-          <TrainingEmptyText>
-            Essa ficha ainda não possui exercícios! Fale com o seu personal
-          </TrainingEmptyText>
-        </TrainingEmptyView>
-      ) : (
-        <>
-          <HeaderListView>
-            <HeaderListText style={{flex: 5, textAlign: 'left'}}>
-              Aparelho
-            </HeaderListText>
-            <HeaderListText style={{flex: 2}}>S X R</HeaderListText>
-
-            <HeaderListText style={{flex: 2}}>Pe</HeaderListText>
-            <HeaderListText style={{flex: 1}}></HeaderListText>
-          </HeaderListView>
-          <ItemsTraining
-            data={data}
-            renderItem={({item}) => <ItemList write={write} items={item} />}
-            keyExtractor={(item) => String(item.id)}
-          />
-        </>
-      )}
-    </Container>
-  );
 };
 
 ViewTraining.defautProps = {

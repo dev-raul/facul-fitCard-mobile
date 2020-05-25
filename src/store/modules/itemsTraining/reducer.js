@@ -1,7 +1,7 @@
 import produce from 'immer';
 import Types from '../../Types';
 const initialState = {
-  loading: null,
+  loading: false,
   error: false,
   training: {},
   data: [],
@@ -16,11 +16,11 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.load_item_training_success:
-        draft.loading = false;
         const {item_trainings, ...rest} = payload.data;
 
         draft.training = {...rest};
         draft.data = item_trainings;
+        draft.loading = false;
         break;
       case Types.load_item_training_failure:
         draft.loading = false;
@@ -33,8 +33,8 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.add_item_training_success:
-        draft.loading = false;
         draft.data = [payload.item, ...state.data];
+        draft.loading = false;
         break;
       case Types.add_item_training_failure:
         draft.loading = false;
@@ -46,7 +46,6 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.delete_item_training_success:
-        draft.loading = false;
         let {itemId} = payload;
         let newData = state.data.filter((item) => item.id !== itemId) || [];
 
@@ -56,6 +55,7 @@ export default (state = initialState, {type, payload}) => {
         } else {
           draft.data = newData;
         }
+        draft.loading = false;
         break;
       case Types.delete_item_training_failure:
         draft.loading = false;
@@ -68,13 +68,13 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.update_item_training_success:
-        draft.loading = false;
         draft.data = state.data.map((item) => {
           if (item.id === payload.data.id) {
             return {...item, ...payload.data};
           }
         });
 
+        draft.loading = false;
         break;
       case Types.update_item_training_failure:
         draft.loading = false;

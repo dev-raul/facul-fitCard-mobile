@@ -1,7 +1,7 @@
 import produce from 'immer';
 import Types from '../../Types';
 const initialState = {
-  loading: null,
+  loading: false,
   error: false,
   data: [],
 };

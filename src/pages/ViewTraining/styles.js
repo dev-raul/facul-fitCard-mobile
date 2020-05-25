@@ -45,15 +45,3 @@ export const HeaderListText = styled.Text`
   text-align: center;
   font-weight: 700;
 `;
-export const TrainingEmptyView = styled.View`
-  margin: 20px 0px;
-  justify-content: center;
-  align-items: center;
-`;
-export const TrainingEmptyText = styled.Text`
-  margin-top: 10px;
-  color: #e02041;
-  font-size: 20px;
-  text-align: center;
-  font-weight: 400;
-`;

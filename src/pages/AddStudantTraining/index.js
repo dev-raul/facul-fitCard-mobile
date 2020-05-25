@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ActivityIndicator} from 'react-native';
 
@@ -11,30 +12,45 @@ const AddStudantTraining = ({route}) => {
   const {studantId, studantName} = route.params;
   const dispatch = useDispatch();
   const {loading, data} = useSelector((state) => state.training);
+  const [isLoad, setIsLoad] = useState(true);
 
   useEffect(() => {
     dispatch(loadTrainingRequest());
   }, []);
 
-  if (loading === null || loading) {
+  if (isLoad) {
+    if (loading) {
+      setIsLoad(false);
+    }
+    return (
+      <Container>
+        <ActivityIndicator size="small" color="#e02041" />
+      </Container>
+    );
+  } else if (!loading) {
+    return (
+      <Container>
+        <Info>Aluno: {studantName}</Info>
+        <Title>Todos os modelos de ficha:</Title>
+        <TrainingList
+          trainings={data}
+          studantId={studantId}
+          addStudantTraining={true}
+        />
+      </Container>
+    );
+  } else {
     return (
       <Container>
         <ActivityIndicator size="small" color="#e02041" />
       </Container>
     );
   }
-
-  return (
-    <Container>
-      <Info>Aluno: {studantName}</Info>
-      <Title>Todos os modelos de ficha:</Title>
-      <TrainingList
-        trainings={data}
-        studantId={studantId}
-        addStudantTraining={true}
-      />
-    </Container>
-  );
 };
-
+AddStudantTraining.propTypes = {
+  route: PropTypes.shape({
+    studantId: PropTypes.number.isRequired,
+    studantName: PropTypes.string.isRequired,
+  }),
+};
 export default AddStudantTraining;

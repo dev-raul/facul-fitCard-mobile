@@ -14,14 +14,13 @@ import {
   TrainingName,
   MoreButton,
   MoreButtonText,
-  TrainingEmptyView,
-  TrainingEmptyText,
 } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import imgTraining from '~/assets/icon.png';
-
 import {deleteStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
+
+import EmptyList from '~/components/EmptyList';
 
 const TrainingList = ({trainings, studantId}, read) => {
   const naviagtion = useNavigation();
@@ -33,12 +32,9 @@ const TrainingList = ({trainings, studantId}, read) => {
 
   if (trainings.length === 0) {
     return (
-      <TrainingEmptyView>
-        <Icon name="file-alt" color="#e02041" size={40} />
-        <TrainingEmptyText>
-          Esse aluno ainda não possui treinos!
-        </TrainingEmptyText>
-      </TrainingEmptyView>
+      <EmptyList icon="file-alt">
+        Esse aluno ainda não possui treinos!
+      </EmptyList>
     );
   }
   return (

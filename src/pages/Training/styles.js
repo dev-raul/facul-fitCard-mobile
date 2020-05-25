@@ -23,15 +23,3 @@ export const StudantList = styled(FlatList).attrs({
   padding-right: 10px;
   margin-right: -10px;
 `;
-
-export const ListEmptyView = styled.View`
-  margin: 20px 0px;
-  justify-content: center;
-  align-items: center;
-`;
-export const ListEmptyText = styled.Text`
-  margin-top: 10px;
-  color: #e02041;
-  font-size: 20px;
-  font-weight: 400;
-`;

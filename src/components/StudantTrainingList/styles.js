@@ -52,14 +52,3 @@ export const MoreButtonText = styled.Text`
   font-size: 18px;
   font-weight: 400;
 `;
-export const TrainingEmptyView = styled.View`
-  margin: 20px 0px;
-  justify-content: center;
-  align-items: center;
-`;
-export const TrainingEmptyText = styled.Text`
-  margin-top: 10px;
-  color: #e02041;
-  font-size: 20px;
-  font-weight: 400;
-`;

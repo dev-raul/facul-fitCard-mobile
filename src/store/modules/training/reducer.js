@@ -1,7 +1,7 @@
 import produce from 'immer';
 import Types from '../../Types';
 const initialState = {
-  loading: null,
+  loading: false,
   error: false,
   data: [],
 };
@@ -15,8 +15,8 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.load_training_success:
-        draft.loading = false;
         draft.data = payload.data.trainings;
+        draft.loading = false;
         break;
       case Types.load_training_failure:
         draft.loading = false;
@@ -29,9 +29,8 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.add_training_success:
-        draft.loading = false;
-
         draft.data = [payload.data, ...state.data];
+        draft.loading = false;
         break;
       case Types.add_training_failure:
         draft.loading = false;
@@ -43,7 +42,6 @@ export default (state = initialState, {type, payload}) => {
         draft.error = false;
         break;
       case Types.delete_training_success:
-        draft.loading = false;
         let {trainingId} = payload;
         let newData =
           state.data.filter((training) => training.id !== trainingId) || [];
@@ -54,6 +52,7 @@ export default (state = initialState, {type, payload}) => {
         } else {
           draft.data = newData;
         }
+        draft.loading = false;
         break;
       case Types.delete_training_failure:
         draft.loading = false;

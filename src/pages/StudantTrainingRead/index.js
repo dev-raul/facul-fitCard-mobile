@@ -12,6 +12,7 @@ const StudantTrainingRead = () => {
   const dispatch = useDispatch();
   const {loading, data} = useSelector((state) => state.studantTraining);
 
+  const [isLoad, setIsLoad] = useState(true);
   const [studant, setStudant] = useState({});
 
   useEffect(() => {
@@ -30,23 +31,32 @@ const StudantTrainingRead = () => {
     }
   }, [studant]);
 
-  if (loading === null || loading || Object.entries(studant).length === 0) {
+  if (isLoad) {
+    if (loading) {
+      setIsLoad(false);
+    }
+    return (
+      <Container>
+        <ActivityIndicator size="small" color="#e02041" />
+      </Container>
+    );
+  } else if (!loading || Object.entries(studant).length !== 0) {
+    return (
+      <Container>
+        <Title>{studant.name}</Title>
+
+        <InfoText>Fichas aderidas:</InfoText>
+
+        <TrainingList read={true} trainings={data} studantId={studant.id} />
+      </Container>
+    );
+  } else {
     return (
       <Container>
         <ActivityIndicator size="small" color="#e02041" />
       </Container>
     );
   }
-
-  return (
-    <Container>
-      <Title>{studant.name}</Title>
-
-      <InfoText>Fichas aderidas:</InfoText>
-
-      <TrainingList read={true} trainings={data} studantId={studant.id} />
-    </Container>
-  );
 };
 
 export default StudantTrainingRead;

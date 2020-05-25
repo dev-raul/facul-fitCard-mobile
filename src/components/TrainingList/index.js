@@ -18,8 +18,6 @@ import {
   TrainingName,
   MoreButton,
   MoreButtonText,
-  TrainingEmptyView,
-  TrainingEmptyText,
   AddStudantTrainingButton,
   AddStudantTrainingText,
   ModalTitle,
@@ -35,6 +33,7 @@ import {format} from 'date-fns';
 
 import BaseModal from '~/components/Modal';
 import Button from '~/components/Button';
+import EmptyList from '~/components/EmptyList';
 
 import {addStudantTrainingRequest} from '~/store/modules/studantTraining/actions';
 import {deleteTrainingRequest} from '~/store/modules/training/actions';
@@ -96,12 +95,9 @@ const TrainingList = ({
 
   if (trainings.length === 0) {
     return (
-      <TrainingEmptyView>
-        <Icon name="file-alt" color="#e02041" size={40} />
-        <TrainingEmptyText>
-          Você não tem nenhum modelo de ficha!
-        </TrainingEmptyText>
-      </TrainingEmptyView>
+      <EmptyList icon="file-alt">
+        Você não tem nenhum modelo de ficha!
+      </EmptyList>
     );
   }
   return (

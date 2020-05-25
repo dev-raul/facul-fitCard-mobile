@@ -11,6 +11,7 @@ const StudantTrainig = ({route, navigation}) => {
   const dispatch = useDispatch();
   const studants = useSelector((state) => state.studant.data);
   const {loading, data} = useSelector((state) => state.studantTraining);
+  const [isLoad, setIsLoad] = useState(true);
 
   const {studantId} = route.params;
   const [studant, setStudant] = useState({});
@@ -32,41 +33,50 @@ const StudantTrainig = ({route, navigation}) => {
     dispatch(deleteStudantRequest(studantId));
   };
 
-  if (loading === null || loading || !studant.name) {
+  if (isLoad) {
+    if (loading) {
+      setIsLoad(false);
+    }
+    return (
+      <Container>
+        <ActivityIndicator size="small" color="#e02041" />
+      </Container>
+    );
+  } else if (!loading) {
+    return (
+      <Container>
+        <Title>{studant.name}</Title>
+        <OpView>
+          <OpButton
+            color="rgba(255, 145, 0, 0.8)"
+            onPress={() =>
+              navigation.navigate('AddStudantTraining', {
+                studantId,
+                studantName: studant.name,
+              })
+            }>
+            Adicionar Ficha
+          </OpButton>
+          <OpButton
+            loading={studant.loading}
+            color="rgba(213, 0, 0, 0.8)"
+            onPress={handleDeleteStudant}>
+            Deletar Aluno
+          </OpButton>
+        </OpView>
+
+        <InfoText>Fichas aderidas:</InfoText>
+
+        <TrainingList trainings={data} studantId={studant.id} />
+      </Container>
+    );
+  } else {
     return (
       <Container>
         <ActivityIndicator size="small" color="#e02041" />
       </Container>
     );
   }
-
-  return (
-    <Container>
-      <Title>{studant.name}</Title>
-      <OpView>
-        <OpButton
-          color="rgba(255, 145, 0, 0.8)"
-          onPress={() =>
-            navigation.navigate('AddStudantTraining', {
-              studantId,
-              studantName: studant.name,
-            })
-          }>
-          Adicionar Ficha
-        </OpButton>
-        <OpButton
-          loading={studant.loading}
-          color="rgba(213, 0, 0, 0.8)"
-          onPress={handleDeleteStudant}>
-          Deletar Aluno
-        </OpButton>
-      </OpView>
-
-      <InfoText>Fichas aderidas:</InfoText>
-
-      <TrainingList trainings={data} studantId={studant.id} />
-    </Container>
-  );
 };
 
 export default StudantTrainig;
