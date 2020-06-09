@@ -11,12 +11,14 @@ import {
 
 import Button from '~/components/Button';
 import BaseModal from '~/components/Modal';
+import Error from '~/components/Error';
 
 import {addTrainingRequest} from '~/store/modules/training/actions';
 
 export default function ModalAddTraining({visible, onCancel}) {
   const dispatch = useDispatch();
   const {loading, error} = useSelector((state) => state.training);
+  const [submit, setSubmit] = useState(false);
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -26,10 +28,12 @@ export default function ModalAddTraining({visible, onCancel}) {
   }, [loading, error]);
 
   const handleSubmitNewTraining = () => {
+    setSubmit(true);
     dispatch(addTrainingRequest({name}));
   };
   const handleCancelModal = () => {
     onCancel();
+    setSubmit(false);
     setName('');
   };
   return (
@@ -44,7 +48,7 @@ export default function ModalAddTraining({visible, onCancel}) {
         value={name}
         onChangeText={setName}
       />
-
+      {error && submit && <Error error={error} />}
       <Button
         opacity={true}
         loading={loading}

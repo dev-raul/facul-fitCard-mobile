@@ -12,16 +12,19 @@ import {
 
 import Button from '~/components/Button';
 import BaseModal from '~/components/Modal';
+import Error from '~/components/Error';
 
 import {addItemTrainingRequest} from '~/store/modules/itemsTraining/actions';
 
 export default function ModalAddItem({visible, onCancel, trainingId}) {
   const dispatch = useDispatch();
-  const {loading, error} = useSelector((state) => state.training);
-  const [instrument, setInstrument] = useState('');
-  const [series, setSeries] = useState('');
-  const [repeat, setRepeat] = useState('');
-  const [load, setLoad] = useState('');
+  const {loading, error} = useSelector((state) => state.itemTraining);
+
+  const [submit, setSubmit] = useState(false);
+  const [instrument, setInstrument] = useState(null);
+  const [series, setSeries] = useState(null);
+  const [repeat, setRepeat] = useState(null);
+  const [load, setLoad] = useState(null);
   const [observation, setObservetaion] = useState('');
 
   const seriesRef = useRef();
@@ -36,32 +39,23 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
   }, [loading, error]);
 
   const handleSubmitNewItem = () => {
-    let data;
-    if (observation) {
-      data = {
-        instrument,
-        series: parseInt(series),
-        repeat: parseInt(repeat),
-        load: parseInt(load),
-        observation,
-      };
-    } else {
-      data = {
-        instrument,
-        series: parseInt(series),
-        repeat: parseInt(repeat),
-        load: parseInt(load),
-      };
-    }
+    setSubmit(true);
+    let data = {};
+    if (instrument) data = {...data, instrument};
+    if (series) data = {...data, series: parseInt(series)};
+    if (repeat) data = {...data, repeat: parseInt(repeat)};
+    if (load) data = {...data, load: parseInt(load)};
+    if (observation) data = {...data, observation};
     dispatch(addItemTrainingRequest(trainingId, data));
   };
   const handleCancelModal = () => {
     onCancel();
-    setInstrument('');
-    setSeries('');
-    setRepeat('');
-    setLoad('');
-    setObservetaion('');
+    setSubmit(false);
+    setInstrument(null);
+    setSeries(null);
+    setRepeat(null);
+    setLoad(null);
+    setObservetaion(null);
   };
   return (
     <BaseModal visible={visible} onRequestClose={handleCancelModal}>
@@ -72,7 +66,7 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
         autoCapitalize="none"
         returnKeyType="next"
         onSubmitEditing={() => seriesRef.current.focus()}
-        value={instrument}
+        value={instrument || ''}
         onChangeText={setInstrument}
       />
       <ViewGroup>
@@ -85,7 +79,7 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
           autoCapitalize="none"
           returnKeyType="next"
           onSubmitEditing={() => repeatRef.current.focus()}
-          value={series}
+          value={series || ''}
           onChangeText={setSeries}
         />
         <ModalInput
@@ -97,7 +91,7 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
           autoCapitalize="none"
           returnKeyType="next"
           onSubmitEditing={() => loadRef.current.focus()}
-          value={repeat}
+          value={repeat || ''}
           onChangeText={setRepeat}
         />
       </ViewGroup>
@@ -110,7 +104,7 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
         autoCapitalize="none"
         returnKeyType="next"
         onSubmitEditing={() => observationRef.current.focus()}
-        value={load}
+        value={load || ''}
         onChangeText={setLoad}
       />
 
@@ -122,9 +116,11 @@ export default function ModalAddItem({visible, onCancel, trainingId}) {
         placeholder="Observações"
         autoCorrect={false}
         autoCapitalize="none"
-        value={observation}
+        value={observation || ''}
         onChangeText={setObservetaion}
       />
+
+      {error && submit && <Error error={error} />}
 
       <Button
         opacity={true}

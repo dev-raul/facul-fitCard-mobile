@@ -23,8 +23,7 @@ function* addStudant({payload}) {
     Alert.alert('Sucesso ao adicionar o aluno!');
     yield put(StudantActions.addStudantSuccess(response.data));
   } catch (err) {
-    Alert.alert('Error:', 'Falha ao adicionar o aluno!');
-    yield put(StudantActions.addStudantFailure());
+    yield put(StudantActions.addStudantFailure(err.response.data?.error));
   }
 }
 function* deleteStudant({payload}) {

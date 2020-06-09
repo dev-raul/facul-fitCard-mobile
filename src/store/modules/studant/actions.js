@@ -29,9 +29,10 @@ export const addStudantSuccess = (studant) => {
   };
 };
 
-export const addStudantFailure = () => {
+export const addStudantFailure = (error) => {
   return {
     type: Types.add_studant_failure,
+    payload: {error},
   };
 };
 export const deleteStudantRequest = (studantId) => {

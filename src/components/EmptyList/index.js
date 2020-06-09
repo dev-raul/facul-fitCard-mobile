@@ -14,7 +14,7 @@ const EmptyList = ({icon, children}) => {
 };
 
 EmptyList.propTypes = {
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   children: PropTypes.string.isRequired,
 };
 export default EmptyList;

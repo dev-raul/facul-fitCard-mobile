@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
 
 import {
@@ -15,7 +15,8 @@ import {
 
 import ImgLogo from '~/assets/icon.png';
 
-export default function SwitchAuth({navigation}) {
+export default function SwitchAuth() {
+  const navigation = useNavigation();
   return (
     <Container>
       <Logo source={ImgLogo} />
@@ -26,6 +27,7 @@ export default function SwitchAuth({navigation}) {
           Escolha o seu tipo de usuário:
         </WelcomeDescriptionText>
         <ButtonView
+          testID="personal"
           onPress={() => navigation.navigate('SignIn', {provider: true})}>
           <Icon name="user-cog" size={60} color="#e02041" />
           <View>

@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import BaseModal from '~/components/Modal';
 import Button from '~/components/Button';
+import Error from '~/components/Error';
 
 import api from '~/services/api';
 
@@ -25,6 +26,7 @@ export default function SettingsUser() {
   const {SignOut} = useAuth();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [name, setName] = useState(null);
@@ -48,6 +50,7 @@ export default function SettingsUser() {
       }
     }
     getUser();
+    return;
   }, []);
 
   const handleCancelModal = () => {
@@ -60,16 +63,12 @@ export default function SettingsUser() {
     if (password) data = {password, ...data};
     if (confirmPassword) data = {confirmPassword, ...data};
     if (oldPassword) data = {oldPassword, ...data};
-    if (
-      password !== null &&
-      confirmPassword !== null &&
-      password !== confirmPassword
-    ) {
-      Alert.alert('Error', 'Senhas diferentes');
+    if (Object.entries(data).length === 0) {
+      Alert.alert('', 'Preencha pelo menos um campo!');
     } else {
       try {
-        await api.put(`/user/${user.id}`, data);
-
+        const response = await api.put(`/user/${user.id}`, data);
+        console.log(response);
         await AsyncStorage.setItem(
           '@FC_Auth:user',
           JSON.stringify({...user, ...data}),
@@ -82,7 +81,7 @@ export default function SettingsUser() {
         setModalVisible(false);
         Alert.alert('', 'Dados atualizado com sucesso');
       } catch (err) {
-        Alert.alert('Error:', 'Preeencha os campos corretamente');
+        setError(err.response.data?.error);
       }
     }
   };
@@ -90,7 +89,7 @@ export default function SettingsUser() {
   if (loading) {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }
@@ -111,45 +110,46 @@ export default function SettingsUser() {
           onChangeText={setName}
         />
         <ModalInput
-          ref={passwordRef}
-          placeholder="Sua nova senha"
+          ref={oldPasswordRef}
+          placeholder="Sua antiga senha"
           secureTextEntry
           autoCorrect={false}
           autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            !!password && confirmPasswordRef.current.focus()
-          }
-          value={password || ''}
-          onChangeText={setPassword}
+          returnKeyType="send"
+          onSubmitEditing={() => passwordRef.current.focus()}
+          value={oldPassword || ''}
+          onChangeText={setOldPassword}
         />
-        {!!password && (
+        {!!oldPassword && (
           <>
+            <ModalInput
+              ref={passwordRef}
+              placeholder="Sua nova senha"
+              secureTextEntry
+              autoCorrect={false}
+              autoCapitalize="none"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                !!password && confirmPasswordRef.current.focus()
+              }
+              value={password || ''}
+              onChangeText={setPassword}
+            />
             <ModalInput
               ref={confirmPasswordRef}
               secureTextEntry
               placeholder="Confirmar senha"
               autoCorrect={false}
               autoCapitalize="none"
-              returnKeyType="next"
-              onSubmitEditing={() => oldPasswordRef.current.focus()}
-              value={confirmPassword || ''}
-              onChangeText={setConfirmPassword}
-            />
-
-            <ModalInput
-              ref={oldPasswordRef}
-              placeholder="Sua antiga senha"
-              secureTextEntry
-              autoCorrect={false}
-              autoCapitalize="none"
               returnKeyType="send"
               onSubmitEditing={handleEditUser}
-              value={oldPassword || ''}
-              onChangeText={setOldPassword}
+              value={confirmPassword || ''}
+              onChangeText={setConfirmPassword}
+              wfweff
             />
           </>
         )}
+        {error && <Error error={error} />}
 
         <Button opacity={true} color="#69F0AE" onPress={handleEditUser}>
           CONFIRMAR

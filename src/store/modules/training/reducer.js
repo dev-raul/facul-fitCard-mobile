@@ -34,7 +34,7 @@ export default (state = initialState, {type, payload}) => {
         break;
       case Types.add_training_failure:
         draft.loading = false;
-        draft.error = true;
+        draft.error = payload.error || true;
         break;
 
       //deleye training

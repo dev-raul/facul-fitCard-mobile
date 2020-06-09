@@ -21,7 +21,7 @@ const App = () => {
       <NavigationContainer>
         <AuthProvider>
           <StatusBar backgroundColor="#e02041" barStyle="light-content" />
-          <Routes loggedIn={false} />
+          <Routes />
         </AuthProvider>
       </NavigationContainer>
     </Provider>

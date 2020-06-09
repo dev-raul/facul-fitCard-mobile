@@ -31,7 +31,8 @@ export default (state = initialState, {type, payload}) => {
         break;
       case Types.add_studant_training_success:
         let find =
-          state.data.filter((training) => training.id !== payload.data) || [];
+          state.data.filter((training) => training.id !== payload.data.id) ||
+          [];
         const verifyAdd = Array.isArray(find);
 
         if (verifyAdd) {

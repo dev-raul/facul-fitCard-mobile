@@ -42,7 +42,7 @@ const StudantTrainig = ({route, navigation}) => {
         <ActivityIndicator size="small" color="#e02041" />
       </Container>
     );
-  } else if (!loading) {
+  } else if (!loading && Object.entries(studant).length > 0) {
     return (
       <Container>
         <Title>{studant.name}</Title>
@@ -51,17 +51,17 @@ const StudantTrainig = ({route, navigation}) => {
             color="rgba(255, 145, 0, 0.8)"
             onPress={() =>
               navigation.navigate('AddStudantTraining', {
-                studantId,
+                studantId: studant.id,
                 studantName: studant.name,
               })
             }>
-            Adicionar Ficha
+            Adicionar
           </OpButton>
           <OpButton
             loading={studant.loading}
             color="rgba(213, 0, 0, 0.8)"
             onPress={handleDeleteStudant}>
-            Deletar Aluno
+            Deletar
           </OpButton>
         </OpView>
 

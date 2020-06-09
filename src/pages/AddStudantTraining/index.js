@@ -24,7 +24,7 @@ const AddStudantTraining = ({route}) => {
     }
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   } else if (!loading) {
@@ -42,15 +42,17 @@ const AddStudantTraining = ({route}) => {
   } else {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }
 };
 AddStudantTraining.propTypes = {
   route: PropTypes.shape({
-    studantId: PropTypes.number.isRequired,
-    studantName: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      studantId: PropTypes.number.isRequired,
+      studantName: PropTypes.string.isRequired,
+    }),
   }),
 };
 export default AddStudantTraining;

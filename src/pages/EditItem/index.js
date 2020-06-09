@@ -4,12 +4,16 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Container, Title, InfoText, EditInput, ViewGroup} from './styles';
 
 import Button from '~/components/Button';
+import Error from '~/components/Error';
+
 import {updateItemTrainingRequest} from '~/store/modules/itemsTraining/actions';
 const EditItem = ({route}) => {
   const dispatch = useDispatch();
   const {itemId} = route.params;
-  const {data, training} = useSelector((state) => state.itemTraining);
+  const {data, training, error} = useSelector((state) => state.itemTraining);
   const [item, setItem] = useState({});
+
+  const [submit, setSubmit] = useState(false);
   const [instrument, setInstrument] = useState(null);
   const [series, setSeries] = useState(null);
   const [repeat, setRepeat] = useState(null);
@@ -38,6 +42,7 @@ const EditItem = ({route}) => {
     } else {
       dispatch(updateItemTrainingRequest(training.id, itemId, data));
     }
+    setSubmit(true);
   };
 
   return (
@@ -103,7 +108,7 @@ const EditItem = ({route}) => {
         value={observation || ''}
         onChangeText={setObservetaion}
       />
-
+      {error && submit && <Error error={error} />}
       <Button opacity={true} color="#69F0AE" onPress={handleUpdateItem}>
         CONFIRMAR
       </Button>

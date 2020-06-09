@@ -18,7 +18,6 @@ function* loadItemsTraining({payload}) {
 }
 
 function* addItemsTraining({payload}) {
-  console.log(payload);
   try {
     const response = yield call(
       api.post,
@@ -28,8 +27,9 @@ function* addItemsTraining({payload}) {
     yield put(ItemTrainingActions.addItemTrainingSuccess(response?.data));
     Alert.alert('Sucesso em criar um item da ficha!');
   } catch (err) {
-    Alert.alert('Error:', 'Informe novamente os dados!');
-    yield put(ItemTrainingActions.addItemTrainingFailure());
+    yield put(
+      ItemTrainingActions.addItemTrainingFailure(err.response.data?.error),
+    );
   }
 }
 
@@ -62,8 +62,9 @@ function* updateItemsTraining({payload}) {
     );
     Alert.alert('Sucesso em atualizar um item da ficha!');
   } catch (err) {
-    Alert.alert('Error:', 'Falha em atualizar um item da ficha!');
-    yield put(ItemTrainingActions.updateItemTrainingFailure());
+    yield put(
+      ItemTrainingActions.updateItemTrainingFailure(err.response.data?.error),
+    );
   }
 }
 

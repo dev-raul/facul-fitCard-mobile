@@ -44,33 +44,33 @@ const TrainingList = ({
   addStudantTraining,
   navigationCard,
 }) => {
-  const naviagtion = useNavigation();
+  const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const {loading} = useSelector((state) => state.studantTraining);
 
   const [addTraining, setAddTraining] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [datePicketVisible, setDatePicketVisible] = useState(false);
-  const [addSchedule, setAddSchedule] = useState();
+  const [addSchedule, setAddSchedule] = useState(new Date());
 
-  function hahdleDeleteTraining(trainingId) {
+  const hahdleDeleteTraining = (trainingId) => {
     dispatch(deleteTrainingRequest(trainingId));
-  }
+  };
 
-  function handleButtonAderir(addTraining) {
+  const handleButtonAderir = (addTraining) => {
     setAddTraining(addTraining);
     setModalVisible(true);
-  }
+  };
 
   const handleNavigation = (id, schedule) => {
     if (navigationCard) {
-      naviagtion.navigate('ViewTraining', {
+      navigate('ViewTraining', {
         trainingId: id,
         schedule,
         write: true,
       });
     } else {
-      naviagtion.navigate('DashBoard', {
+      navigate('DashBoard', {
         screen: 'ViewTraining',
         params: {
           trainingId: id,
@@ -80,6 +80,7 @@ const TrainingList = ({
     }
   };
   const handleCancelModal = () => {
+    setAddSchedule(null);
     setModalVisible(false);
   };
 
@@ -112,13 +113,16 @@ const TrainingList = ({
             <TrainingView>
               {addStudantTraining ? (
                 <AddStudantTrainingButton
+                  testID="button-aderir"
                   onPress={() => handleButtonAderir(item)}>
                   <AddStudantTrainingText>Aderir</AddStudantTrainingText>
                 </AddStudantTrainingButton>
               ) : (
                 <TrainingHeader>
                   <Data>{schedule} </Data>
-                  <Trash onPress={() => hahdleDeleteTraining(item.id)}>
+                  <Trash
+                    testID="delete-training"
+                    onPress={() => hahdleDeleteTraining(item.id)}>
                     <Icon name="trash-alt" size={14} color="#e02041" />
                   </Trash>
                 </TrainingHeader>
@@ -136,9 +140,14 @@ const TrainingList = ({
           );
         }}
       />
-      <BaseModal visible={modalVisible} onRequestClose={handleCancelModal}>
+      <BaseModal
+        testID="modal"
+        visible={modalVisible}
+        onRequestClose={handleCancelModal}>
         <ModalTitle>Informe os dados necessários:</ModalTitle>
-        <ModalDate onPress={() => setDatePicketVisible(true)}>
+        <ModalDate
+          testID="button-date-picker"
+          onPress={() => setDatePicketVisible(true)}>
           <ModalDateText>
             {addSchedule
               ? format(addSchedule, 'dd/MM/yyyy')
@@ -148,7 +157,8 @@ const TrainingList = ({
 
         {datePicketVisible && (
           <DateTimePicker
-            value={addSchedule || new Date()}
+            testID="date-picker"
+            value={addSchedule}
             mode="date"
             display="spinner"
             minimumDate={new Date()}
@@ -167,7 +177,7 @@ const TrainingList = ({
           loading={loading}
           color="#69F0AE"
           onPress={handleSubmitAddStudantTraining}>
-          Aderir
+          Confirmar
         </Button>
         <ModalButtonInfo onPress={handleCancelModal}>
           <ModalButtonInfoText>Cancelar</ModalButtonInfoText>

@@ -28,8 +28,7 @@ function* addTraining({payload}) {
     yield put(TrainingActions.addTrainingSuccess(response.data));
     Alert.alert('Ficha criado!', 'É preciso criar os exercícios da ficha');
   } catch (err) {
-    yield put(TrainingActions.addTrainingFailure());
-    Alert.alert('Error: ', 'Falha ao criar uma ficha!');
+    yield put(TrainingActions.addTrainingFailure(err.response.data?.error));
   }
 }
 function* deleteTraining({payload}) {

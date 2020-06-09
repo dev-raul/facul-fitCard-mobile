@@ -22,7 +22,7 @@ import {deleteStudantTrainingRequest} from '~/store/modules/studantTraining/acti
 
 import EmptyList from '~/components/EmptyList';
 
-const TrainingList = ({trainings, studantId}, read) => {
+const TrainingList = ({trainings, studantId, read}) => {
   const naviagtion = useNavigation();
   const dispatch = useDispatch();
 
@@ -52,7 +52,9 @@ const TrainingList = ({trainings, studantId}, read) => {
               ) : (
                 <>
                   <Data>{schedule} </Data>
-                  <Trash onPress={() => hahdleDeleteTraining(item.id)}>
+                  <Trash
+                    testID="delete-training"
+                    onPress={() => hahdleDeleteTraining(item.id)}>
                     <Icon name="trash-alt" size={14} color="#e02041" />
                   </Trash>
                 </>

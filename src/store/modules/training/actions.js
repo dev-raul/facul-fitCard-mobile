@@ -31,9 +31,10 @@ export const addTrainingSuccess = (data) => {
   };
 };
 
-export const addTrainingFailure = () => {
+export const addTrainingFailure = (error) => {
   return {
     type: Types.add_training_failure,
+    payload: {error},
   };
 };
 

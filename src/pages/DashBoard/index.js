@@ -25,13 +25,14 @@ export default function DashBoard() {
     }
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   } else if (!loading || modalVisible) {
     return (
       <Container>
         <ModalAddStudant
+          testID="modal"
           visible={modalVisible}
           onCancel={() => setModalVisible(false)}
         />
@@ -45,6 +46,7 @@ export default function DashBoard() {
           <>
             <Title>Seus alunos:</Title>
             <StudantList
+              testID="studant-list"
               data={data}
               renderItem={({item}) => <ItemListStudant studant={item} />}
               keyExtractor={(item) => String(item.id)}
@@ -56,7 +58,7 @@ export default function DashBoard() {
   } else {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }

@@ -8,6 +8,7 @@ export default function ItemListStudant({studant: {id, name}}) {
   const navigation = useNavigation();
   return (
     <Container
+      testID="button-view-studant"
       onPress={() => navigation.navigate('StudantTraining', {studantId: id})}>
       <StudantView>
         <Icon name="user-circle" size={35} color="#000" />

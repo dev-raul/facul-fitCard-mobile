@@ -12,7 +12,7 @@ export const TrainingView = styled.View`
   width: 45%;
   margin-top: 5px;
   margin-bottom: 5px;
-  padding: 20px;
+  padding: 20px 10px;
   background: #eee;
   border-radius: 8px;
   flex-direction: column;
@@ -44,13 +44,15 @@ export const InfoView = styled.View`
 export const MoreButton = styled(RectButton)`
   padding: 5px 10px;
   align-self: center;
+  align-self: stretch;
   border: 1px solid rgba(98, 0, 238, 0.8);
   border-radius: 4px;
 `;
 export const MoreButtonText = styled.Text`
   color: rgba(98, 0, 238, 0.8);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
+  text-align: center;
 `;
 
 export const AddStudantTrainingButton = styled(RectButton)`

@@ -38,7 +38,7 @@ export default (state = initialState, {type, payload}) => {
         break;
       case Types.add_item_training_failure:
         draft.loading = false;
-        draft.error = true;
+        draft.error = payload.error || true;
         break;
 
       //delete item training
@@ -77,8 +77,8 @@ export default (state = initialState, {type, payload}) => {
         draft.loading = false;
         break;
       case Types.update_item_training_failure:
+        draft.error = payload.error || true;
         draft.loading = false;
-        draft.error = true;
         break;
       default:
         break;
