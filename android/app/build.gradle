@@ -79,6 +79,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    bundleInRelease: true,
 ]
 project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'FontAwesome.ttf', 'FontAwesome5_Solid.ttf', 'FontAwesome5_Brands.ttf', 'FontAwesome5_Regular.ttf' ] // Name of the font files you want to copy
@@ -134,12 +135,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mobile"
+        applicationId "com.fitcard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
+    
     splits {
         abi {
             reset()
@@ -155,6 +157,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+         release{
+            if(project.hasProperty('MYAPP_RELEASE_STORE_FILE')){
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -166,6 +176,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 

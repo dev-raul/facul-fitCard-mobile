@@ -39,7 +39,7 @@ const StudantTrainig = ({route, navigation}) => {
     }
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   } else if (!loading && Object.entries(studant).length > 0) {
@@ -67,13 +67,17 @@ const StudantTrainig = ({route, navigation}) => {
 
         <InfoText>Fichas aderidas:</InfoText>
 
-        <TrainingList trainings={data} studantId={studant.id} />
+        <TrainingList
+          testID="training-list"
+          trainings={data}
+          studantId={studant.id}
+        />
       </Container>
     );
   } else {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }

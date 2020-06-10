@@ -39,7 +39,10 @@ const ItemsList = ({items, write}) => {
       <ItemText
         style={{flex: 2}}>{`${items.series} X ${items.repeat}`}</ItemText>
       <ItemText style={{flex: 2}}>{`${items.load} kg`}</ItemText>
-      <MoreButton style={{flex: 1}} onPress={() => setModalVisible(true)}>
+      <MoreButton
+        style={{flex: 1}}
+        testID="more"
+        onPress={() => setModalVisible(true)}>
         <Icon name="more-vert" size={22} color="#000" />
       </MoreButton>
 

@@ -26,7 +26,7 @@ export default function Training() {
     }
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   } else if (!loading || modalVisible) {
@@ -55,7 +55,7 @@ export default function Training() {
   } else {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }

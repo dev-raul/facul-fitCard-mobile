@@ -38,7 +38,7 @@ const ViewTraining = ({route}) => {
     }
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   } else if (!loading || modalVisible) {
@@ -91,7 +91,7 @@ const ViewTraining = ({route}) => {
   } else {
     return (
       <Container>
-        <ActivityIndicator size="small" color="#e02041" />
+        <ActivityIndicator testID="loading" size="small" color="#e02041" />
       </Container>
     );
   }
